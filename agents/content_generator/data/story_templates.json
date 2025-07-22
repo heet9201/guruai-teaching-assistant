@@ -1,0 +1,57 @@
+{
+  "mathematics_grade_1": {
+    "structure": ["simple_introduction", "counting_activity", "happy_ending"],
+    "length": "short",
+    "complexity": "very_simple",
+    "key_elements": ["numbers_1_to_10", "basic_shapes", "size_comparison"],
+    "template": "Simple counting story with familiar objects"
+  },
+  
+  "mathematics_grade_3": {
+    "structure": ["character_introduction", "problem_scenario", "mathematical_solution", "lesson_learned"],
+    "length": "medium",
+    "complexity": "elementary",
+    "key_elements": ["addition_subtraction", "multiplication_tables", "money_problems"],
+    "template": "Market or farming scenario requiring basic calculations"
+  },
+  
+  "mathematics_grade_5": {
+    "structure": ["detailed_setup", "complex_problem", "step_by_step_solution", "practical_application"],
+    "length": "long",
+    "complexity": "intermediate", 
+    "key_elements": ["fractions", "decimals", "measurement", "geometry"],
+    "template": "Real-world problem requiring multiple mathematical concepts"
+  },
+
+  "science_grade_2": {
+    "structure": ["observation", "simple_question", "exploration", "discovery"],
+    "length": "short",
+    "complexity": "observational",
+    "key_elements": ["plants", "animals", "weather", "body_parts"],
+    "template": "Nature exploration story with simple scientific observations"
+  },
+  
+  "science_grade_4": {
+    "structure": ["scientific_question", "investigation", "experiment", "conclusion"],
+    "length": "medium", 
+    "complexity": "experimental",
+    "key_elements": ["water_cycle", "plant_growth", "simple_machines", "food_chains"],
+    "template": "Investigation story with basic experiments and discoveries"
+  },
+
+  "social_studies_grade_3": {
+    "structure": ["community_introduction", "social_interaction", "problem_solving", "community_values"],
+    "length": "medium",
+    "complexity": "social",
+    "key_elements": ["family", "community_helpers", "festivals", "traditions"],
+    "template": "Community-based story highlighting social relationships and values"
+  },
+
+  "default_story": {
+    "structure": ["introduction", "development", "climax", "resolution"],
+    "length": "medium",
+    "complexity": "age_appropriate",
+    "key_elements": ["relatable_characters", "familiar_setting", "clear_moral"],
+    "template": "General educational story with cultural elements"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "maharashtra_rural": {
+    "cultural_elements": [
+      "agriculture",
+      "joint_family_system",
+      "seasonal_festivals",
+      "traditional_occupations",
+      "rural_community_life"
+    ],
+    "local_references": {
+      "crops": ["wheat", "sugarcane", "cotton", "onion", "grapes"],
+      "festivals": ["Ganesh Chaturthi", "Gudi Padwa", "Diwali", "Makar Sankranti"],
+      "animals": ["cow", "buffalo", "goat", "chicken", "ox"],
+      "occupations": ["farmer", "shopkeeper", "teacher", "artisan", "milk_vendor"]
+    },
+    "agriculture": {
+      "main_crops": ["wheat", "bajra", "jowar", "sugarcane"],
+      "seasons": ["kharif", "rabi", "zaid"],
+      "farming_methods": ["traditional", "modern", "organic"]
+    },
+    "language_specific": {
+      "script": "devanagari", 
+      "common_honorifics": ["ji", "saheb", "tai", "kaka"],
+      "regional_words": ["gavat", "wada", "chawl", "dongri"]
+    },
+    "teaching_tips": [
+      "Use farming examples for mathematics",
+      "Reference local festivals for calendar concepts",
+      "Include community helpers in stories",
+      "Use seasonal changes for science concepts"
+    ],
+    "sensitivities": [
+      "Be mindful of economic disparities",
+      "Respect religious diversity",
+      "Avoid gender stereotypes",
+      "Include all caste communities respectfully"
+    ]
+  },
+  
+  "punjab_rural": {
+    "cultural_elements": [
+      "wheat_farming",
+      "sikh_traditions",
+      "punjabi_language",
+      "bhangra_culture",
+      "gurudwara_community"
+    ],
+    "local_references": {
+      "crops": ["wheat", "rice", "maize", "cotton"],
+      "festivals": ["Vaisakhi", "Diwali", "Holi", "Karva Chauth"],
+      "animals": ["buffalo", "cow", "chicken", "dog"],
+      "occupations": ["farmer", "dairy_farmer", "truck_driver", "teacher"]
+    },
+    "agriculture": {
+      "main_crops": ["wheat", "basmati_rice", "cotton"],
+      "green_revolution": ["high_yield_varieties", "mechanization"],
+      "irrigation": ["tube_wells", "canal_system"]
+    },
+    "language_specific": {
+      "script": "gurmukhi",
+      "common_phrases": ["sat_sri_akal", "waheguru", "chak_de"],
+      "regional_words": ["pind", "khet", "haveli", "gurdwara"]
+    }
+  },
+
+  "bengal_rural": {
+    "cultural_elements": [
+      "rice_cultivation",
+      "fish_farming",
+      "durga_puja",
+      "bengali_literature",
+      "river_culture"
+    ],
+    "local_references": {
+      "crops": ["rice", "jute", "potato", "mustard"],
+      "festivals": ["Durga Puja", "Kali Puja", "Poila Boishakh", "Saraswati Puja"],
+      "animals": ["fish", "cow", "goat", "duck"],
+      "occupations": ["farmer", "fisherman", "teacher", "artisan"]
+    },
+    "agriculture": {
+      "main_crops": ["rice", "jute", "tea"],
+      "water_bodies": ["rivers", "ponds", "wetlands"],
+      "seasonal_patterns": ["monsoon_dependent"]
+    },
+    "language_specific": {
+      "script": "bengali",
+      "common_honorifics": ["da", "didi", "kaku", "pishi"],
+      "regional_words": ["gram", "bazar", "pukur", "maath"]
+    }
+  },
+
+  "rajasthan_rural": {
+    "cultural_elements": [
+      "desert_life",
+      "water_conservation",
+      "colorful_culture",
+      "traditional_crafts",
+      "camel_farming"
+    ],
+    "local_references": {
+      "crops": ["bajra", "wheat", "mustard", "gram"],
+      "festivals": ["Teej", "Gangaur", "Diwali", "Holi"],
+      "animals": ["camel", "goat", "sheep", "cow"],
+      "occupations": ["farmer", "herder", "craftsman", "trader"]
+    },
+    "agriculture": {
+      "main_crops": ["bajra", "jowar", "wheat"],
+      "water_challenges": ["drought", "water_scarcity"],
+      "traditional_methods": ["baawdi", "tank_irrigation"]
+    },
+    "language_specific": {
+      "script": "devanagari",
+      "regional_dialect": "rajasthani",
+      "common_words": ["dhani", "kuan", "haveli", "chaupal"]
+    }
+  }
+}

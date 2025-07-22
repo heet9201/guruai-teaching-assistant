@@ -1,0 +1,79 @@
+{
+  "name": "worksheet_processor",
+  "description": "Multimodal specialist agent for processing textbook images and generating differentiated worksheets for multiple grade levels",
+  "url": "http://localhost:8002/a2a/worksheet_processor",
+  "version": "1.0.0",
+  "defaultInputModes": ["text/plain", "application/json", "image/jpeg", "image/png"],
+  "defaultOutputModes": ["text/plain", "application/json", "application/pdf"],
+  "capabilities": {
+    "streaming": true,
+    "functions": true,
+    "multimodal": true,
+    "image_processing": true
+  },
+  "skills": [
+    {
+      "id": "process_textbook_image",
+      "name": "Textbook Image Processing",
+      "description": "Process photos of textbook pages and extract educational content for worksheet creation",
+      "tags": ["image_processing", "OCR", "textbook_analysis", "education", "multimodal"],
+      "examples": [
+        "Upload a photo of a math textbook page to generate worksheets for grades 3-5",
+        "Process an image of a science diagram to create differentiated activities",
+        "Extract text from a Hindi textbook page and create multilevel exercises"
+      ]
+    },
+    {
+      "id": "generate_differentiated_worksheets",
+      "name": "Multi-Grade Worksheet Generation", 
+      "description": "Create worksheets adapted for multiple grade levels from single source content",
+      "tags": ["differentiation", "multi_grade", "worksheet_creation", "education", "adaptation"],
+      "examples": [
+        "Generate worksheets for grades 1, 3, and 5 from the same mathematics concept",
+        "Create beginner, intermediate, and advanced versions of science activities",
+        "Adapt reading comprehension for different literacy levels"
+      ]
+    },
+    {
+      "id": "extract_text_from_image",
+      "name": "Educational Content Extraction",
+      "description": "Extract and analyze text from educational images using advanced OCR",
+      "tags": ["OCR", "text_extraction", "image_analysis", "multilingual", "education"],
+      "examples": [
+        "Extract Hindi and English text from mixed-language textbooks",
+        "Process handwritten notes and diagrams",
+        "Analyze educational charts and infographics"
+      ]
+    },
+    {
+      "id": "analyze_content_complexity",
+      "name": "Educational Content Analysis",
+      "description": "Analyze educational content complexity and determine appropriate grade levels",
+      "tags": ["content_analysis", "complexity_assessment", "grade_level_determination", "education"],
+      "examples": [
+        "Determine if content is appropriate for grade 4 or grade 6",
+        "Analyze vocabulary complexity in multilingual content",
+        "Assess prerequisite knowledge requirements"
+      ]
+    }
+  ],
+  "authentication": {
+    "type": "none"
+  },
+  "metadata": {
+    "created": "2025-07-21",
+    "specialization": "multimodal_worksheet_generation",
+    "target_audience": "multi_grade_classrooms",
+    "supported_subjects": ["mathematics", "science", "social_studies", "language_arts"],
+    "grade_levels": ["1", "2", "3", "4", "5", "6", "7", "8"],
+    "image_formats": ["jpg", "jpeg", "png", "webp"],
+    "languages": ["hindi", "english", "marathi", "bengali"],
+    "processing_capabilities": [
+      "OCR_multilingual",
+      "content_analysis", 
+      "difficulty_assessment",
+      "worksheet_generation",
+      "differentiation"
+    ]
+  }
+}
