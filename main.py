@@ -1,8 +1,15 @@
 from flask import Flask, request, jsonify
 from agents.guruai_coordinator.agent import root_agent
 import os
+from vertexai import init
 
 app = Flask(__name__)
+
+# Initialize Vertex AI
+init(
+    project=os.environ.get('GOOGLE_CLOUD_PROJECT'),
+    location=os.environ.get('GOOGLE_CLOUD_LOCATION')
+)
 
 @app.route('/health', methods=['GET'])
 def health_check():

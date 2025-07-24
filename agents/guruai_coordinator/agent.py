@@ -1,43 +1,49 @@
 # agents/sahayak_coordinator/agent.py
-from google.adk.agents import LlmAgent
-from google.genai import types
-# from ..content_generator.agent import content_generator_agent
-
-import sys
 import os
+import sys
+from vertexai.generative_models import GenerativeModel, GenerationConfig
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from agents.content_generator.agent import content_generator_agent
 
-# from ..worksheet_processor.agent import worksheet_agent
-# from ..knowledge_assistant.agent import knowledge_agent
-# from ..visual_designer.agent import visual_agent
-# from ..assessment_planner.agent import assessment_agent
-
-guruai_coordinator = LlmAgent(
-    name="guruai_coordinator",
-    model="gemini-2.0-flash",
-    instruction="""You are GuruAI, an intelligent teaching assistant for multi-grade 
-    Indian classrooms. Route requests to appropriate specialists:
+class GuruAICoordinator:
+    def __init__(self):
+        self.model = GenerativeModel("gemini-pro")
+        self.instruction = """You are GuruAI, an intelligent teaching assistant for multi-grade 
+        Indian classrooms. Route requests to appropriate specialists:
+        
+        - Hyper-local content creation → content_generator
+        - Textbook image processing → worksheet_processor  
+        
+        Always respond in the teacher's preferred language and consider rural 
+        Indian educational context."""
+        
+        self.config = GenerationConfig(
+            temperature=0.5,
+            max_output_tokens=1024
+        )
+        
+        self.sub_agents = {
+            "content_generator": content_generator_agent,
+            # "worksheet_processor": worksheet_agent,
+            # "knowledge_assistant": knowledge_agent,
+            # "visual_designer": visual_agent,
+            # "assessment_planner": assessment_agent
+        }
     
-    - Hyper-local content creation → content_generator
-    - Textbook image processing → worksheet_processor  
-    
-    Always respond in the teacher's preferred language and consider rural 
-    Indian educational context.""",
-    sub_agents=[
-        content_generator_agent,
-        # worksheet_agent,
-        # knowledge_agent,
-        # visual_agent,
-        # assessment_agent
-    ],
-    generate_content_config=types.GenerateContentConfig(
-        temperature=0.5,
-        max_output_tokens=1024
-    )
-)
+    def generate_content(self, prompt, context=None):
+        # Combine instruction with prompt
+        full_prompt = f"{self.instruction}\n\nQuery: {prompt}"
+        if context and "preferred_language" in context:
+            full_prompt += f"\nPreferred Language: {context['preferred_language']}"
+            
+        return self.model.generate_content(
+            full_prompt,
+            generation_config=self.config
+        )
 
-# Export for backend integration
+# Create singleton instance
+guruai_coordinator = GuruAICoordinator()
 root_agent = guruai_coordinator
 
 # - Student questions & explanations → knowledge_assistant

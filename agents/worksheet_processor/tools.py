@@ -1,5 +1,4 @@
 # agents/worksheet_processor/tools.py
-from google.adk.tools import FunctionTool
 from google.cloud import vision
 from PIL import Image
 import base64

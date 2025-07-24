@@ -1,36 +1,21 @@
 # Core Dependencies
 Flask==2.0.1
-Werkzeug==2.0.3  # Added specific version for Flask compatibility
+Werkzeug==2.0.3
 gunicorn==20.1.0
+
+# Google Cloud Dependencies
 google-cloud-aiplatform>=1.38.0
-
-# Google AI Dependencies
-vertexai>=0.0.1
 google-cloud-storage>=2.14.0
+google-cloud-translate>=3.12.0
+google-cloud-vision>=3.7.0
 
-# HTTP and API Dependencies
-requests>=2.31.0
-urllib3>=2.0.7
-aiohttp>=3.8.5
+# Image Processing
+Pillow>=10.0.0
 
 # Development Dependencies
 pytest>=7.4.0
-pytest-cov>=4.1.0
 black>=23.7.0
 flake8>=6.1.0
-isort>=5.12.0
 
 # Production Dependencies
 python-dotenv>=1.0.0
-pyyaml>=6.0.1
-tenacity>=8.2.3  # For retrying failed API calls
-prometheus-client>=0.17.1  # For metrics in production
-
-# Security Dependencies
-cryptography>=41.0.3
-pyjwt>=2.8.0
-
-# Utility Dependencies
-tqdm>=4.65.0
-python-json-logger>=2.0.7
-structlog>=23.1.0
