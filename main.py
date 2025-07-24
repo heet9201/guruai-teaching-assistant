@@ -2,14 +2,18 @@ from flask import Flask, request, jsonify
 from agents.guruai_coordinator.agent import root_agent
 import os
 from vertexai import init
+from google.api_core import exceptions
 
 app = Flask(__name__)
 
 # Initialize Vertex AI
-init(
-    project=os.environ.get('GOOGLE_CLOUD_PROJECT'),
-    location=os.environ.get('GOOGLE_CLOUD_LOCATION')
-)
+try:
+    init(
+        project=os.environ.get('GOOGLE_CLOUD_PROJECT'),
+        location=os.environ.get('GOOGLE_CLOUD_LOCATION')
+    )
+except Exception as e:
+    print(f"Warning: Failed to initialize Vertex AI: {str(e)}")
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -31,15 +35,31 @@ def handle_query():
         language = data.get('language', 'english')  # Default to English if not specified
         
         # Get response from GuruAI coordinator
-        response = root_agent.generate_content(
-            prompt=query,
-            context={"preferred_language": language}
-        )
-        
-        return jsonify({
-            "response": response.text,
-            "language": language
-        })
+        try:
+            response = root_agent.generate_content(
+                prompt=query,
+                context={"preferred_language": language}
+            )
+            
+            return jsonify({
+                "response": response.text,
+                "language": language
+            })
+        except exceptions.PermissionDenied as e:
+            return jsonify({
+                "error": "Access to Vertex AI model denied. Please ensure Vertex AI API is enabled and you have necessary permissions.",
+                "details": str(e)
+            }), 403
+        except exceptions.NotFound as e:
+            return jsonify({
+                "error": "Vertex AI model not found. Please ensure Gemini Pro model is enabled for your project.",
+                "details": str(e)
+            }), 404
+        except Exception as e:
+            return jsonify({
+                "error": "Failed to generate response",
+                "details": str(e)
+            }), 500
 
     except Exception as e:
         return jsonify({

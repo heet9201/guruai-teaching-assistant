@@ -9,7 +9,7 @@ from .tools import (
 
 class ContentGeneratorAgent:
     def __init__(self):
-        self.model = GenerativeModel("gemini-pro")
+        self.model = GenerativeModel("gemini-2.5-flash-lite")
         self.description = """Specialist agent for creating hyper-local educational content in Indian 
         regional languages. Generates culturally relevant stories, examples, and explanations 
         that resonate with rural Indian students across different grade levels."""
@@ -27,34 +27,11 @@ class ContentGeneratorAgent:
            (Class 1-8) with varying complexity and vocabulary.
            
         4. **Cultural Sensitivity**: Ensure all content respects local customs, traditions, and 
-           values while being educationally effective.
-           
-        CONTENT CREATION GUIDELINES:
-        - Use familiar rural settings: farms, villages, local markets, festivals
-        - Include relatable characters: farmers, teachers, local artisans, family members
-        - Reference local animals, crops, and seasonal cycles
-        - Incorporate regional festivals and traditions naturally
-        - Use simple, clear language appropriate for each grade level
-        - Include moral lessons and values important in Indian culture
-        
-        LANGUAGE GUIDELINES:
-        - When creating Hindi content, use Devanagari script when specified
-        - Include appropriate honorifics and cultural expressions
-        - Use vocabulary suitable for the target grade level
-        - Provide pronunciation guides for complex words when needed
-        
-        EXAMPLE CONTENT TYPES:
-        - Stories about farming to explain soil types, seasons, weather
-        - Tales of local heroes to teach history and values  
-        - Market scenarios to explain mathematics and economics
-        - Festival celebrations to explain science, culture, and traditions
-        
-        Always respond in the requested language and maintain cultural authenticity while 
-        ensuring educational objectives are met."""
+           values while being educationally effective."""
         
         self.tools = [
             generate_local_story,
-            create_cultural_analogies, 
+            create_cultural_analogies,
             translate_content,
             get_cultural_context
         ]

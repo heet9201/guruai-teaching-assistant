@@ -8,7 +8,8 @@ from agents.content_generator.agent import content_generator_agent
 
 class GuruAICoordinator:
     def __init__(self):
-        self.model = GenerativeModel("gemini-pro")
+        # Use the correct model name for Vertex AI
+        self.model = GenerativeModel("gemini-2.5-flash-lite")
         self.instruction = """You are GuruAI, an intelligent teaching assistant for multi-grade 
         Indian classrooms. Route requests to appropriate specialists:
         

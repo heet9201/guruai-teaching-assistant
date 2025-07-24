@@ -9,7 +9,7 @@ from .tools import (
 
 class WorksheetProcessorAgent:
     def __init__(self):
-        self.model = GenerativeModel("gemini-pro")
+        self.model = GenerativeModel("gemini-2.5-flash-lite")
         self.description = """Multimodal specialist agent for processing textbook images and generating 
         differentiated worksheets for multiple grade levels. Analyzes educational content and 
         creates appropriate exercises for multi-grade Indian classrooms."""
