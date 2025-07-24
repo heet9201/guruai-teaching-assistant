@@ -6,7 +6,7 @@ from google.genai import types
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from content_generator.agent import content_generator_agent
+from agents.content_generator.agent import content_generator_agent
 
 # from ..worksheet_processor.agent import worksheet_agent
 # from ..knowledge_assistant.agent import knowledge_agent

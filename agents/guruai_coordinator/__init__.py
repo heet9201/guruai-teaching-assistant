@@ -1,1 +1,1 @@
-from .agent import guruai_coordinator
+from guruai_coordinator.agent import root_agent

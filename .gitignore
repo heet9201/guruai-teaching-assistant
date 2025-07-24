@@ -210,3 +210,4 @@ __marimo__/
 myenv/
 venv/
 agents/deploy_agents.py
+.DS_Store
