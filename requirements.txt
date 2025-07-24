@@ -1,5 +1,6 @@
 # Core Dependencies
 Flask==2.0.1
+Werkzeug==2.0.3  # Added specific version for Flask compatibility
 gunicorn==20.1.0
 google-cloud-aiplatform>=1.38.0
 
