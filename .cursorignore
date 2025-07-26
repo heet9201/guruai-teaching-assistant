@@ -1,0 +1,5 @@
+# In your main.py
+from agents.config.firebase_config import initialize_firebase
+
+# Initialize Firebase at app startup
+firebase_app = initialize_firebase()

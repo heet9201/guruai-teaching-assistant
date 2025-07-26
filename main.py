@@ -1,71 +1,40 @@
-from flask import Flask, request, jsonify
-from agents.guruai_coordinator.agent import root_agent
+"""
+GuruAI Teaching Assistant
+Main application entry point
+"""
 import os
-from vertexai import init
-from google.api_core import exceptions
+from dotenv import load_dotenv
+from flask import Flask
+from agents.auth import initialize_firebase, initialize_session
+from agents.api import initialize_routes, initialize_middleware
 
-app = Flask(__name__)
+# Load environment variables
+load_dotenv()
 
-# Initialize Vertex AI
-try:
-    init(
-        project=os.environ.get('GOOGLE_CLOUD_PROJECT'),
-        location=os.environ.get('GOOGLE_CLOUD_LOCATION')
-    )
-except Exception as e:
-    print(f"Warning: Failed to initialize Vertex AI: {str(e)}")
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    """Health check endpoint for Cloud Run"""
-    return jsonify({"status": "healthy"}), 200
-
-@app.route('/query', methods=['POST'])
-def handle_query():
-    """Main endpoint to handle teaching assistant queries"""
-    try:
-        data = request.get_json()
-        
-        if not data or 'query' not in data:
-            return jsonify({
-                "error": "Missing required field: query"
-            }), 400
-
-        query = data['query']
-        language = data.get('language', 'english')  # Default to English if not specified
-        
-        # Get response from GuruAI coordinator
-        try:
-            response = root_agent.generate_content(
-                prompt=query,
-                context={"preferred_language": language}
-            )
-            
-            return jsonify({
-                "response": response.text,
-                "language": language
-            })
-        except exceptions.PermissionDenied as e:
-            return jsonify({
-                "error": "Access to Vertex AI model denied. Please ensure Vertex AI API is enabled and you have necessary permissions.",
-                "details": str(e)
-            }), 403
-        except exceptions.NotFound as e:
-            return jsonify({
-                "error": "Vertex AI model not found. Please ensure Gemini Pro model is enabled for your project.",
-                "details": str(e)
-            }), 404
-        except Exception as e:
-            return jsonify({
-                "error": "Failed to generate response",
-                "details": str(e)
-            }), 500
-
-    except Exception as e:
-        return jsonify({
-            "error": str(e)
-        }), 500
+def create_app():
+    """Create and configure the Flask application"""
+    app = Flask(__name__)
+    
+    # Configure app
+    app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
+    app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
+    
+    # Initialize Firebase
+    initialize_firebase()
+    
+    # Initialize session handling
+    initialize_session(app)
+    
+    # Initialize routes and middleware
+    initialize_routes(app)
+    initialize_middleware(app)
+    
+    return app
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port) 
+    app = create_app()
+    app.run(
+        host='0.0.0.0',
+        port=int(os.getenv('PORT', 8080)),
+        debug=os.getenv('FLASK_ENV') == 'development'
+    ) 

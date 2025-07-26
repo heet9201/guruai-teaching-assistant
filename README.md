@@ -1,190 +1,271 @@
 # GuruAI Teaching Assistant
 
-An intelligent teaching assistant for multi-grade Indian classrooms that provides localized content generation, worksheet processing, and educational support.
+An AI-powered teaching assistant for multi-grade Indian classrooms that helps teachers create localized content, differentiated materials, and manage diverse learning environments.
 
-## Project Overview
+## Features
 
-GuruAI is a multi-agent system that includes:
+1. **Hyper-Local Content Generation**
 
-- **Coordinator Agent**: Routes requests to specialized agents
-- **Content Generator**: Creates hyper-local educational content
-- **Worksheet Processor**: Handles textbook image processing
-- (Planned) Knowledge Assistant, Visual Designer, and Assessment Planner
+   - Create stories in local languages
+   - Culturally relevant examples
+   - Multi-grade adaptations
 
-## Prerequisites
+2. **Differentiated Materials**
 
-- Python 3.8+
-- Google Cloud account
-- GitHub account
-- Docker installed locally (for testing)
+   - Process textbook images
+   - Generate grade-specific worksheets
+   - Support multiple languages
 
-## Local Development Setup
+3. **Knowledge Base**
+
+   - Simple explanations for complex topics
+   - Local language support
+   - Grade-appropriate analogies
+
+4. **Visual Aids**
+
+   - Blackboard-friendly diagrams
+   - Simple charts and graphs
+   - Multi-language labels
+
+5. **Assessment & Planning**
+   - Audio-based reading assessments
+   - Weekly lesson planning
+   - Educational game generation
+
+## Setup
+
+### Prerequisites
+
+1. Python 3.10 or higher
+2. Google Cloud account with the following APIs enabled:
+   - Vertex AI
+   - Cloud Vision
+   - Cloud Translation
+   - Cloud Speech-to-Text
+3. Firebase account and project
+
+### Installation
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/yourusername/guruai-teaching-assistant.git
-cd guruai-teaching-assistant
-```
+   ```bash
+   git clone https://github.com/yourusername/guruai-teaching-assistant.git
+   cd guruai-teaching-assistant
+   ```
 
 2. Create and activate virtual environment:
 
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
 3. Install dependencies:
 
-```bash
-pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+### Firebase Setup
+
+1. Install Firebase CLI:
+
+   ```bash
+   npm install -g firebase-tools
+   ```
+
+2. Login to Firebase:
+
+   ```bash
+   firebase login
+   ```
+
+3. Initialize Firebase project:
+
+   ```bash
+   firebase init
+   ```
+
+4. Deploy to Firebase:
+   ```bash
+   firebase deploy
+   ```
+
+## API Usage
+
+### Authentication
+
+All API endpoints require Firebase authentication. Include the Firebase ID token in the Authorization header:
+
+```http
+Authorization: Bearer <firebase-id-token>
 ```
 
-## Deployment to Cloud Run
+### Endpoints
 
-### 1. Initial Setup
+1. Create Session
 
-1. Install Google Cloud SDK
-2. Initialize Google Cloud:
-
-```bash
-gcloud init
-gcloud auth configure-docker
+```http
+POST /api/v1/sessions
+Response: {
+    "session_id": "session-uuid",
+    "message": "Session created successfully"
+}
 ```
 
-3. Enable required APIs:
+2. Chat
 
-```bash
-gcloud services enable \
-  cloudbuild.googleapis.com \
-  run.googleapis.com
+```http
+POST /api/v1/chat/<session_id>
+Content-Type: application/json
+
+{
+    "message": "Create a story in Marathi about farmers",
+    "context": {
+        "language": "marathi",
+        "grade_levels": ["3", "4"],
+        "subject": "science"
+    }
+}
 ```
 
-### 2. Create Dockerfile
+3. Process Image
 
-Create a `Dockerfile` in your project root:
+```http
+POST /api/v1/process-image/<session_id>
+Content-Type: multipart/form-data
 
-```dockerfile
-FROM python:3.8-slim
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-COPY . .
-
-ENV PORT 8080
-CMD exec gunicorn --bind :$PORT main:app
+image: <file>
+grade_levels: ["3", "4", "5"]
+subject: science
+language: hindi_english
 ```
 
-### 3. Create Cloud Run Service
+### Example Usage
 
-1. Create a `main.py` file for the Flask application
-2. Set up environment variables in Cloud Run
-3. Deploy manually first to test:
-
-```bash
-gcloud run deploy guruai-assistant \
-  --source . \
-  --platform managed \
-  --region asia-south1 \
-  --allow-unauthenticated
-```
-
-### 4. GitHub Actions CI/CD Setup
-
-1. Create `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy to Cloud Run
-
-on:
-  push:
-    branches:
-      - main
-
-env:
-  PROJECT_ID: your-project-id
-  SERVICE_NAME: guruai-assistant
-  REGION: asia-south1
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Google Cloud
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Configure Docker
-        run: gcloud auth configure-docker
-
-      - name: Build and Push Image
-        run: |
-          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA .
-          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
-
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy $SERVICE_NAME \
-            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
-            --platform managed \
-            --region $REGION \
-            --allow-unauthenticated
-```
-
-### 5. Setup GitHub Secrets
-
-1. Create a service account in Google Cloud Console
-2. Download JSON key and add to GitHub repository secrets as `GCP_SA_KEY`
-3. Grant required IAM roles:
-   - Cloud Run Admin
-   - Storage Admin
-   - Service Account User
-
-### 6. API Documentation
-
-The service exposes the following endpoints:
-
-- `POST /query`
-  - Request body: `{"query": "your teaching question", "language": "preferred_language"}`
-  - Response: JSON with agent response
-
-Example usage:
+1. Generate Local Content:
 
 ```python
 import requests
 
 response = requests.post(
-    "https://your-cloud-run-url/query",
+    "https://your-app.web.app/api/v1/chat/session-id",
+    headers={
+        "Authorization": f"Bearer {firebase_token}"
+    },
     json={
-        "query": "Create a lesson plan for grade 5 science",
-        "language": "hindi"
+        "message": "Create a story in Marathi about water cycle",
+        "context": {
+            "language": "marathi",
+            "grade_levels": ["4"],
+            "subject": "science"
+        }
     }
 )
-print(response.json())
 ```
 
-## Environment Variables
+2. Process Textbook Image:
 
-Required environment variables:
+```python
+import requests
 
-- `GOOGLE_APPLICATION_CREDENTIALS`: Path to service account key
-- `PROJECT_ID`: Google Cloud project ID
-- Other agent-specific configuration
+with open("textbook_page.jpg", "rb") as f:
+    response = requests.post(
+        "https://your-app.web.app/api/v1/process-image/session-id",
+        headers={
+            "Authorization": f"Bearer {firebase_token}"
+        },
+        files={
+            "image": f
+        },
+        data={
+            "grade_levels": ["3", "4", "5"],
+            "subject": "mathematics",
+            "language": "hindi_english"
+        }
+    )
+```
+
+## Development
+
+### Project Structure
+
+```
+guruai-teaching-assistant/
+├── agents/
+│   ├── local_content_generator/
+│   ├── knowledge_base/
+│   ├── visual_aid_generator/
+│   ├── assessment_planner/
+│   └── worksheet_processor/
+├── api/
+│   └── routes.py
+├── auth/
+│   ├── firebase_auth.py
+│   └── session.py
+└── main.py
+```
+
+### Adding New Features
+
+1. Create new agent in `agents/` directory
+2. Update coordinator in `agents/guruai_coordinator/agent.py`
+3. Add API endpoints in `agents/api/routes.py`
+4. Update tests and documentation
+
+### Testing
+
+Run tests:
+
+```bash
+pytest
+```
+
+### Local Development
+
+1. Start Firebase emulators:
+
+```bash
+firebase emulators:start
+```
+
+2. Run development server:
+
+```bash
+FLASK_ENV=development flask run
+```
+
+## Deployment
+
+1. Build and test:
+
+```bash
+pytest
+black .
+flake8
+```
+
+2. Deploy to Firebase:
+
+```bash
+firebase deploy
+```
 
 ## Contributing
 
 1. Fork the repository
 2. Create feature branch
 3. Commit changes
-4. Create pull request
+4. Push to branch
+5. Create Pull Request
 
 ## License
 
-See [LICENSE](LICENSE) file.
+This project is licensed under the MIT License - see the LICENSE file for details.
